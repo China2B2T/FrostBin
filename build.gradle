@@ -1,0 +1,40 @@
+plugins {
+	id 'java'
+	id "org.jetbrains.kotlin.jvm" version "1.3.72"
+}
+
+group 'dev.binclub'
+version ''
+
+sourceCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
+
+jar {
+	manifest {
+		attributes(
+				"Main-Class": "dev.binclub.paperbin.MainKt",
+		)
+	}
+	from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+}
+
+configurations {
+	fatJar.extendsFrom(compile, runtime)
+}
+
+dependencies {
+	compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+	compile "org.jetbrains.kotlin:kotlin-reflect"
+	implementation 'org.ow2.asm:asm:7.1'
+	implementation 'org.ow2.asm:asm-tree:7.1'
+	implementation 'org.ow2.asm:asm-commons:7.1'
+	compile 'org.ow2.asm:asm-util:7.1'
+	implementation files("paperclip/cache/patched_1.12.2.jar")
+}
+
+compileKotlin {
+	kotlinOptions.jvmTarget = "1.8"
+}
