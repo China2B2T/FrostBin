@@ -1,0 +1,7 @@
+dev/binclub/paperbin/transformers/asyncai/AsyncMobAiReplacedFunctions.java
+ dev.binclub.paperbin.transformers.asyncai.AsyncMobAiReplacedFunctions
+dev/binclub/paperbin/utils/JavaUtils.java
+ dev.binclub.paperbin.utils.JavaUtils
+net/minecraft/server/v1_12_R1/PathfinderGoalSelector.java
+ net.minecraft.server.v1_12_R1.PathfinderGoalSelector
+ net.minecraft.server.v1_12_R1.PathfinderGoalSelector$PathfinderGoalSelectorItem

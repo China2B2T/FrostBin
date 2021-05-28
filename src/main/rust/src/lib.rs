@@ -1,4 +1,3 @@
-mod antiphysicscrash;
 mod utils;
 
 use jvm_rs::jni::{JavaVM, JNIEnv, jclass, jobject, jint, JNI_VERSION_1_8, jmethodID, jbyteArray, jstring, JNI_OK, jlong, jboolean, JNINativeMethod};
@@ -8,7 +7,6 @@ use std::os::raw::{c_void, c_int, c_char, c_uchar};
 use std::borrow::BorrowMut;
 use std::ptr::null_mut;
 use std::mem::{zeroed, size_of};
-use crate::antiphysicscrash::Java_dev_binclub_paperbin_native_NativeAccessor_registerAntiPhysicsCrash;
 
 static mut AGENT_LOADED: bool = false;
 static mut CALLBACKS: Option<jvmtiEventCallbacks> = None;
@@ -16,7 +14,7 @@ static mut JVMTI: Option<*mut jvmtiEnv> = None;
 
 #[no_mangle]
 pub unsafe extern "system" fn Agent_OnLoad(vm: *mut JavaVM, _options: *const c_char, _reserved: &mut c_void) -> c_int {
-	println!("Paperbin Agent Loaded");
+	println!("Frostbin Agent Loaded");
 	let jvmti = utils::get_jvmti(vm);
 	JVMTI = Some(jvmti);
 	
@@ -53,18 +51,13 @@ pub unsafe extern "C" fn vm_init(
 	let methods = vec![
 		JNINativeMethod {
 			name: cstr!("registerClassLoadHook"),
-			signature: cstr!("(Ldev/binclub/paperbin/native/PaperBinClassTransformer;)V"),
+			signature: cstr!("(Ldev/binclub/paperbin/PaperBinClassTransformer;)V"),
 			fnPtr: registerClassLoadHook as *mut c_void
 		},
 		JNINativeMethod {
 			name: cstr!("appendToClassloader"),
 			signature: cstr!("(Ljava/lang/String;Z)V"),
 			fnPtr: Java_dev_binclub_paperbin_native_NativeAccessor_appendToClassloader as *mut c_void
-		},
-		JNINativeMethod {
-			name: cstr!("registerAntiPhysicsCrash"),
-			signature: cstr!("(Ljava/lang/reflect/Method;I)V"),
-			fnPtr: Java_dev_binclub_paperbin_native_NativeAccessor_registerAntiPhysicsCrash as *mut c_void
 		},
 	];
 	assert_eq!((**env).RegisterNatives.unwrap()(env, native_accessor, methods.as_ptr(), methods.len() as i32), JNI_OK as i32);
@@ -75,7 +68,7 @@ pub unsafe extern "C" fn vm_init(
 #[no_mangle]
 pub unsafe extern "system" fn JNI_OnLoad(_vm: *mut JavaVM, _reserved: &mut c_void) -> c_int {
 	if !AGENT_LOADED {
-		panic!("Paperbin loaded without agent, please pass -agentpath: argument, read the ReadMe for more details");
+		panic!("Frostbin loaded without agent, please pass -agentpath: argument, read the ReadMe for more details");
 	}
 	JNI_VERSION_1_8 as i32
 }

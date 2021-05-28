@@ -10,23 +10,17 @@ import kotlin.reflect.KProperty
  * @author cookiedragon234 29/Apr/2020
  */
 object PaperBinConfig {
-	val saveFile = File("paperbin.properties")
+	val saveFile = File("frostbin.properties")
 	val properties = Properties()
 	
 	var antiChunkBan: Boolean by BooleanProperty(properties, "antiChunkBan", false)
 	var antiCrasher: Boolean by BooleanProperty(properties, "antiCrasher")
 	var antiDupe: Boolean by BooleanProperty(properties, "antiDupe")
-	var antiElytraFly: Boolean by BooleanProperty(properties, "antiElytraFly")
 	var antiGrief: Boolean by BooleanProperty(properties, "antiGrief")
 	var antiIllegalItem: Boolean by BooleanProperty(properties, "antiIllegalItem", false)
-	var antiNetherRoof: Boolean by BooleanProperty(properties, "antiNetherRoof")
-	var antiNetherRoofLevel: Int by IntProperty(properties, "antiNetherRoof.level", 125)
 	var antiNewChunks: Boolean by BooleanProperty(properties, "antiNewChunks", false)
-	var antiPhysicsCrash: Boolean by BooleanProperty(properties, "antiPhysicsCrash", false)
 	var antiWorldBorder: Boolean by BooleanProperty(properties, "antiWorldBorder", false)
-	var physicsMaxStackSize: Int by IntProperty(properties, "antiPhysicsCrash.maxStackSize", 500)
 	var antiPortalGodmode: Boolean by BooleanProperty(properties, "antiPortalGodmode")
-	var antiUnicodeChat: Boolean by BooleanProperty(properties, "antiUnicodeChat", false)
 	var blockRateLimit: Boolean by BooleanProperty(properties, "blockRateLimit")
 	var chunkLoadOptimisations: Boolean by BooleanProperty(properties, "chunkLoadOptimisations", false)
 	var customServerBrand: String by StringProperty(properties, "customServerBrand", "PaperBin")
@@ -55,7 +49,7 @@ object PaperBinConfig {
 	
 	fun save(): Boolean {
 		try {
-			properties.store(saveFile.writer(), "PaperBin Configuration")
+			properties.store(saveFile.writer(), "FrostBin Configuration")
 			return true
 		} catch (t: Throwable) {
 			t.printStackTrace()

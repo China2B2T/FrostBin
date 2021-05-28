@@ -24,10 +24,10 @@ import kotlin.concurrent.thread
  * @author cookiedragon234 23/Apr/2020
  */
 object PaperBinInfo {
-	val version = 1.82f
+	val version = 1.0f
 	@JvmStatic
 	val logger by lazy {
-		Logger.getLogger("PaperBin").also {
+		Logger.getLogger("FrostBin").also {
 			for (handler in it.handlers) {
 				it.removeHandler(handler)
 			}
@@ -37,7 +37,7 @@ object PaperBinInfo {
 					override fun format(record: LogRecord): String {
 						val builder = StringBuilder()
 						val ex = record.thrown
-						builder.append("\r[paperbin ")
+						builder.append("\r[frostbin ")
 						builder.append(record.level.localizedName.toUpperCase())
 						builder.append("] ")
 						builder.append(formatMessage(record))
@@ -62,7 +62,7 @@ object PaperBinInfo {
 			Runtime.getRuntime().addShutdownHook(thread(start = false, isDaemon = false) {
 				if (PaperBinConfig.debug && !crashed) {
 					if (transformers.isEmpty()) {
-						logger.info("All paperbin transformers consumed")
+						logger.info("All frostbin transformers consumed")
 					}
 					for (transformer in transformers.keys) {
 						if (transformer !in usedTransformers) {
@@ -76,15 +76,11 @@ object PaperBinInfo {
 		AntiChunkBan,
 		AntiCrasher,
 		AntiDupe,
-		AntiElytraFly,
 		AntiEntityDesync,
 		AntiGrief,
 		AntiIllegalItem,
-		AntiNetherRoof,
 		AntiNewChunks,
-		AntiPhysicsCrash,
 		AntiPortalGodmode,
-		AntiUnicodeChat,
 		AsyncMobAi,
 		BlockTickRateLimiter,
 		ChunkLoadingOptimisations,
@@ -130,18 +126,18 @@ object PaperBinInfo {
 		checkForUpdate()
 		if (PaperBinConfig.debug) {
 			logger.warning("--------------------------------------------------")
-			logger.warning("WARNING: PaperBin has been started with DEBUG mode")
+			logger.warning("WARNING: FrostBin has been started with DEBUG mode")
 			logger.warning("This WILL impact performance!")
 			logger.warning("--------------------------------------------------")
 		}
 		
-		Bukkit.getCommandMap().register("binreload", object: Command("binreload") {
+		Bukkit.getCommandMap().register("frostbin-reload", object: Command("frostbin-reload") {
 			override fun execute(sender: CommandSender?, commandLabel: String, args: Array<String?>?): Boolean {
 				if (sender?.isOp == true) {
 					if (PaperBinConfig.load()) {
-						sender.sendMessage("§6Reloaded PaperBin config")
+						sender.sendMessage("§6Reloaded FrostBin config")
 					} else {
-						sender.sendMessage("§cFailed to reload PaperBin config")
+						sender.sendMessage("§cFailed to reload FrostBin config")
 					}
 					return true
 				}
@@ -149,7 +145,7 @@ object PaperBinInfo {
 			}
 		})
 		
-		Bukkit.getCommandMap().register("binsave", object: Command("binsave") {
+		Bukkit.getCommandMap().register("frostbin-save", object: Command("frostbin-save") {
 			override fun execute(sender: CommandSender?, commandLabel: String, args: Array<String?>?): Boolean {
 				if (sender?.isOp == true) {
 					if (PaperBinConfig.save()) {
@@ -165,7 +161,8 @@ object PaperBinInfo {
 		
 		Bukkit.getCommandMap().register("paperbin", object: Command("paperbin") {
 			override fun execute(sender: CommandSender?, commandLabel: String, args: Array<String?>?): Boolean {
-				sender?.sendMessage("§6This server is running PaperBin $version")
+				sender?.sendMessage("§eThis server is running FrostBin $version")
+				sender?.sendMessage("§e§lPowered by PaperBin (https://github.com/x4e/PaperBin)")
 				return true
 			}
 		})
